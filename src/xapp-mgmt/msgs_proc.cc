@@ -26,64 +26,10 @@
 #include "msgs_proc.hpp"
 
 
-bool XappMsgHandler::encode_subscription_delete_request(unsigned char* buffer, size_t *buf_len){
-
-	subscription_helper sub_helper;
-	sub_helper.set_request(0); // requirement of subscription manager ... ?
-	sub_helper.set_function_id(0);
-
-	subscription_delete e2ap_sub_req_del;
-
-	  // generate the delete request pdu
-
-	  bool res = e2ap_sub_req_del.encode_e2ap_subscription(&buffer[0], buf_len, sub_helper);
-	  if(! res){
-	    mdclog_write(MDCLOG_ERR, "%s, %d: Error encoding subscription delete request pdu. Reason = %s", __FILE__, __LINE__, e2ap_sub_req_del.get_error().c_str());
-	    return false;
-	  }
-
-	return true;
-
-}
-
-bool XappMsgHandler::decode_subscription_response(unsigned char* data_buf, size_t data_size){
-
-	subscription_helper subhelper;
-	subscription_response subresponse;
-	bool res = true;
-	E2AP_PDU_t *e2pdu = 0;
-
-	asn_dec_rval_t rval;
-
-	ASN_STRUCT_RESET(asn_DEF_E2AP_PDU, e2pdu);
-
-	rval = asn_decode(0,ATS_ALIGNED_BASIC_PER, &asn_DEF_E2AP_PDU, (void**)&e2pdu, data_buf, data_size);
-	switch(rval.code)
-	{
-		case RC_OK:
-			   //Put in Subscription Response Object.
-			   //asn_fprint(stdout, &asn_DEF_E2AP_PDU, e2pdu);
-			   break;
-		case RC_WMORE:
-				mdclog_write(MDCLOG_ERR, "RC_WMORE");
-				res = false;
-				break;
-		case RC_FAIL:
-				mdclog_write(MDCLOG_ERR, "RC_FAIL");
-				res = false;
-				break;
-		default:
-				break;
-	 }
-	ASN_STRUCT_FREE(asn_DEF_E2AP_PDU, e2pdu);
-	return res;
-
-}
-
 bool  XappMsgHandler::a1_policy_handler(char * message, int *message_len, a1_policy_helper &helper){
 
   rapidjson::Document doc;
-  if (doc.Parse(message).HasParseError()){
+  if (doc.Parse<kParseStopWhenDoneFlag>(message).HasParseError()){
     mdclog_write(MDCLOG_ERR, "Error: %s, %d :: Could not decode A1 JSON message %s\n", __FILE__, __LINE__, message);
     return false;
   }
@@ -163,15 +109,27 @@ void XappMsgHandler::operator()(rmr_mbuf_t *message, bool *resend){
 		case (RIC_SUB_RESP):
         		mdclog_write(MDCLOG_INFO, "Received subscription message of type = %d", message->mtype);
 				unsigned char *me_id;
-				rmr_get_meid(message, me_id);
+				if( (me_id = (unsigned char *) malloc( sizeof( unsigned char ) * RMR_MAX_MEID )) == NULL ) {
+					mdclog_write(MDCLOG_ERR, "Error :  %s, %d : malloc failed for me_id", __FILE__, __LINE__);
+					me_id = rmr_get_meid(message, NULL);
+				} else {
+					rmr_get_meid(message, me_id);
+				}
+				if(me_id == NULL){
+					mdclog_write(MDCLOG_ERR, " Error :: %s, %d : rmr_get_meid failed me_id is NULL", __FILE__, __LINE__);
+					break;
+				}
 				mdclog_write(MDCLOG_INFO,"RMR Received MEID: %s",me_id);
-
 				if(_ref_sub_handler !=NULL){
-					_ref_sub_handler->manage_subscription_response(message->mtype, me_id);
+					_ref_sub_handler->manage_subscription_response(message->mtype, reinterpret_cast< char const* >(me_id));
 				} else {
 					mdclog_write(MDCLOG_ERR, " Error :: %s, %d : Subscription handler not assigned in message processor !", __FILE__, __LINE__);
 				}
 				*resend = false;
+				if (me_id != NULL) {
+					mdclog_write(MDCLOG_INFO, "Free RMR Received MEID memory: %s(0x%x)", me_id, me_id);
+					free(me_id);
+				}
 				break;
 
 	case A1_POLICY_REQ:
@@ -186,6 +144,11 @@ void XappMsgHandler::operator()(rmr_mbuf_t *message, bool *resend){
 				*resend = true;
 			}
 			break;
+	case RIC_INDICATION:
+
+		mdclog_write(MDCLOG_INFO, "Received Indication message of type = %d", message->mtype);
+		//pick the relevant decoding code from test_e2sm.h, section(E2SM, IndicationMessageDecode)
+		break;
 
 	default:
 		{
