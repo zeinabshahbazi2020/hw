@@ -16,7 +16,7 @@
                 {
                     "name": "rmr-data",
                     "container": "hwxapp",
-                    "port": 4560,
+                    "port": 4440,
                     "rxMessages": [ 
 						"RIC_SUB_RESP", 
 						"A1_POLICY_REQ", "RIC_HEALTH_CHECK_REQ" 
@@ -28,7 +28,7 @@
                 {
                     "name": "rmr-route",
                     "container": "hwxapp",
-                    "port": 4561,
+                    "port": 4441,
                     "description": "rmr route port for hwxapp"
                 }
             ]
