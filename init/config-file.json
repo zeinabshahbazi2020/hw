@@ -7,7 +7,7 @@
                 "image": {
                     "registry": "nexus3.o-ran-sc.org:11255",
                     "name": "o-ran-sc/ric-app-hw",
-                    "tag": "1.0.5"
+                    "tag": "1.0.9"
                	}
             }
         ],
@@ -16,7 +16,7 @@
                 {
                     "name": "rmr-data",
                     "container": "hwxapp",
-                    "port": 4560,
+                    "port": 4440,
                     "rxMessages": [ 
 						"RIC_SUB_RESP", 
 						"A1_POLICY_REQ", "RIC_HEALTH_CHECK_REQ" 
@@ -28,13 +28,13 @@
                 {
                     "name": "rmr-route",
                     "container": "hwxapp",
-                    "port": 4561,
+                    "port": 4441,
                     "description": "rmr route port for hwxapp"
                 }
             ]
         },
         "rmr": {
-            "protPort": "tcp:4510",
+            "protPort": "tcp:4440",
             "maxSize": 2012,
             "numWorkers": 1,
             "txMessages": [
