@@ -105,10 +105,10 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         cmd[0] = sys.argv[2];
 
-    with open(config_file, 'r') as f:
+    with open(config_file, "r") as f:
          try:
-             config = json.load(f.read());
-            print(config)
+             config = json.load(f);
+           
          except Exception as e:
              print(("Error loading json file from {0}. Reason = {1}\n".format(config_file, e)));
              sys.exit(1);
