@@ -21,11 +21,11 @@ ARG SCHEMA_PATH=schemas
 ARG STAGE_DIR=/tmp/helloworld-xapp
 
 #==================================================================================
-FROM nexus3.o-ran-sc.org:13331/ubuntu:18.04 as ricbuild
+FROM nexus3.o-ran-sc.org:10001/ubuntu:18.04 as ricbuild
 
 # to override repo base, pass in repo argument when running docker build:
 # docker build --build-arg REPOBASE=http://abc.def.org . ....
-ARG REPOBASE=https://github.com/zeinabshahbazi2020/hw
+ARG REPOBASE=https://gerrit.o-ran-sc.org/r/
 ARG SCHEMA_FILE
 ARG SCHEMA_PATH
 ARG STAGE_DIR
