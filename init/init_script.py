@@ -105,7 +105,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         cmd[0] = sys.argv[2];
 
-    with open(config_file, "r") as f:
+    with open(config_file, 'r') as f:
          try:
              config = json.load(f);
            
