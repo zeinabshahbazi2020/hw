@@ -25,7 +25,7 @@ FROM nexus3.o-ran-sc.org:10001/ubuntu:18.04 as ricbuild
 
 # to override repo base, pass in repo argument when running docker build:
 # docker build --build-arg REPOBASE=http://abc.def.org . ....
-ARG REPOBASE=https://gerrit.oran-osc.org/r
+ARG REPOBASE=https://gerrit.o-ran-sc.org/r/
 ARG SCHEMA_FILE
 ARG SCHEMA_PATH
 ARG STAGE_DIR

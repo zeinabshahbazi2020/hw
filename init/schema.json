@@ -25,7 +25,7 @@
           "title": "The Xapp_port Schema",
           "default": 0,
           "examples": [
-            4560
+            4440
           ]
         },
         "rmr_port": {
@@ -34,7 +34,7 @@
           "title": "The Rmr_port Schema",
           "default": 0,
           "examples": [
-            4561
+            4441
           ]
         }
       }
@@ -59,7 +59,7 @@
           "title": "The Protport Schema",
           "default": "",
           "examples": [
-            "tcp:4560"
+            "tcp:4440"
           ],
           "pattern": "^(.*)$"
         },

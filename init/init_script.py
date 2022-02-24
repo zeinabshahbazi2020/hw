@@ -108,6 +108,7 @@ if __name__ == "__main__":
     with open(config_file, 'r') as f:
          try:
              config = json.load(f);
+           
          except Exception as e:
              print(("Error loading json file from {0}. Reason = {1}\n".format(config_file, e)));
              sys.exit(1);
