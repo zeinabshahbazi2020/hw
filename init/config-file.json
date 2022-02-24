@@ -1,13 +1,13 @@
  {
-        "xapp_name": "hwxappm",
-        "version": "1.1.0",
+        "xapp_name": "hwxapp",
+        "version": "1.0.0",
         "containers": [
             {
-                "name": "hwxappm",
+                "name": "hwxapp",
                 "image": {
-                    "registry": "nexus3.o-ran-sc.org:12583",
+                    "registry": "nexus3.o-ran-sc.org:10002",
                     "name": "o-ran-sc/ric-app-hw",
-                    "tag": "1.0.9"
+                    "tag": "1.0.0"
                	}
             }
         ],
@@ -15,7 +15,7 @@
             "ports": [
                 {
                     "name": "rmr-data",
-                    "container": "hwxappm",
+                    "container": "hwxapp",
                     "port": 4550,
                     "rxMessages": [ 
 						"RIC_SUB_RESP", 
@@ -23,11 +23,11 @@
                     ],
                     "txMessages": [ "RIC_SUB_REQ", "A1_POLICY_RESP", "A1_POLICY_QUERY", "RIC_HEALTH_CHECK_RESP" ],
                     "policies": [1],
-                    "description": "rmr receive data port for hwxappm"
+                    "description": "rmr receive data port for hwxapp"
                 },
                 {
                     "name": "rmr-route",
-                    "container": "hwxappm",
+                    "container": "hwxapp",
                     "port": 4551,
                     "description": "rmr route port for hwxapp"
                 }
