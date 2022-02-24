@@ -5,7 +5,7 @@
             {
                 "name": "hwxappH",
                 "image": {
-                    "registry": "nexus3.o-ran-sc.org:10002",
+                    "registry": "nexus3.o-ran-sc.org:11472",
                     "name": "o-ran-sc/ric-app-hw",
                     "tag": "1.3.6"
                	}
@@ -15,7 +15,11 @@
             "ports": [
                 {
                     "name": "rmr-data",
+
                     "container": "hwxappH",
+=======
+                    "container": "hwxappH",
+
                     "port": 4440,
                     "rxMessages": [ 
 						"RIC_SUB_RESP", 
@@ -27,7 +31,11 @@
                 },
                 {
                     "name": "rmr-route",
+
                     "container": "hwxappH",
+=======
+                    "container": "hwxappH",
+
                     "port": 4441,
                     "description": "rmr route port for hwxapp"
                 }
