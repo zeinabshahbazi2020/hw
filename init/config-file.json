@@ -1,10 +1,10 @@
  
  {
-           "xapp_name": "hwxapp",
+           "xapp_name": "hwxappMalicious",
             "version": "1.0.0",
             "containers": [
                 {
-                    "name": "hwxapp",
+                    "name": "hwxappMalicious",
                     "image": {
                         "registry": "nexus3.o-ran-sc.org:10002",
                         "name": "o-ran-sc/ric-app-hw",
@@ -16,7 +16,7 @@
                "ports": [
                    {
                        "name": "rmr-data",
-                       "container": "hwxapp",
+                       "container": "hwxappMalicious",
                        "port": 4560,
                        "rxMessages": [ 
                                                    "RIC_SUB_RESP", 
@@ -28,7 +28,7 @@
                    },
                    {
                        "name": "rmr-route",
-                       "container": "hwxapp",
+                       "container": "hwxappMalicious",
                        "port": 4561,
                        "description": "rmr route port for hwxapp"
                    }
